@@ -2,8 +2,6 @@ package hello.servlet.web.frontcontroller.v3;
 
 import hello.servlet.web.frontcontroller.ModelView;
 import hello.servlet.web.frontcontroller.MyView;
-import hello.servlet.web.frontcontroller.v2.ControllerV2;
-
 import hello.servlet.web.frontcontroller.v3.controller.MemberFormControllerV3;
 import hello.servlet.web.frontcontroller.v3.controller.MemberListControllerV3;
 import hello.servlet.web.frontcontroller.v3.controller.MemberSaveControllerV3;
@@ -17,8 +15,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-// front-controller/v2/members/new-form
 @WebServlet(name = "frontControllerServletV3", urlPatterns = "/front-controller/v3/*")
 public class FrontControllerServletV3 extends HttpServlet {
 
@@ -41,19 +37,20 @@ public class FrontControllerServletV3 extends HttpServlet {
             return;
         }
 
-        // paramMap 을 넘겨줘야해
         Map<String, String> paramMap = createParamMap(request);
-
         ModelView mv = controller.process(paramMap);
 
-        String viewName = mv.getViewName();// 논리이름 new-form
+        String viewName = mv.getViewName();
+        MyView view = viewResolver(viewName);
 
-        MyView view = new MyView("/WEB-IF/views/" + viewName + ".jsp");
-
-        view.render(request, response);
+        view.render(mv.getModel(), request, response);
     }
 
-    private static Map<String, String> createParamMap(HttpServletRequest request) {
+    private MyView viewResolver(String viewName) {
+        return new MyView("/WEB-INF/views/" + viewName + ".jsp");
+    }
+
+    private Map<String, String> createParamMap(HttpServletRequest request) {
         Map<String, String> paramMap = new HashMap<>();
         request.getParameterNames().asIterator()
                 .forEachRemaining(paramName -> paramMap.put(paramName, request.getParameter(paramName)));
