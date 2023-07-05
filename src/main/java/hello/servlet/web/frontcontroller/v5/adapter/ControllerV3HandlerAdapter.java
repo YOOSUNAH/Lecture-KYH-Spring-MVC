@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ControllerV3HandlerAdapter implements MyHandlerAdapter {
+
     @Override
     public boolean supports(Object handler) {
         return (handler instanceof ControllerV3);
@@ -19,12 +20,13 @@ public class ControllerV3HandlerAdapter implements MyHandlerAdapter {
 
     @Override
     public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
-       ControllerV3 controller = (ControllerV3)handler;
+        //MemberFormControllerV3
+        ControllerV3 controller = (ControllerV3) handler;
 
         Map<String, String> paramMap = createParamMap(request);
         ModelView mv = controller.process(paramMap);
 
-        return null;
+        return mv;
     }
 
     private Map<String, String> createParamMap(HttpServletRequest request) {
@@ -33,5 +35,6 @@ public class ControllerV3HandlerAdapter implements MyHandlerAdapter {
                 .forEachRemaining(paramName -> paramMap.put(paramName, request.getParameter(paramName)));
         return paramMap;
     }
+
 
 }
