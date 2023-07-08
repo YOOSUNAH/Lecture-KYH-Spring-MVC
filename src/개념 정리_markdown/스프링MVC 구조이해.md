@@ -24,3 +24,15 @@
 #### HandlerAdapter(핸들러 어댑터)
 * 핸들러 매핑을 통해서 찾은 핸들러를 실행할 수 있는 핸들러 어댑터가 필요하다.
 예) `Controller` 인터페이스를 실행할 수 있는 핸들러 어댑터를 찾고 실행해야 한다.
+
+#### 조합
+* 컨트롤러 클래스를 통합하는 것을 넘어서 조합도 가능하다.
+* 다음 코드는 `/springmvc/v2/members` 라는 부분에 중복이 있다.
+* `@RequestMapping("/springmvc/v2/members/new-form")`
+* `@RequestMapping("/springmvc/v2/members")`
+* `@RequestMapping("/springmvc/v2/members/save")`
+#### 조합 결과
+* `클래스 레벨 @RequestMapping("/springmvc/v2/members")`
+* `메서드 레벨 @RequestMapping("/new-form")` -> `/springmvc/v2/members/new-form` 
+* `메서드 레벨 @RequestMapping("/save")` ->  `/springmvc/v2/members/save`
+* `메서드 레벨 @RequestMapping` -> `/springmvc/v2/members`
